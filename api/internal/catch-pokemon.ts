@@ -1,9 +1,10 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import service, { Pokemon } from "../../services/PokemonService";
 import { prismaClient } from "../../services/db";
-import statusLog from "../../services/logger";
+import statusLog, { BAD } from "../../services/logger";
 import { Response } from 'express'
 import get, { AxiosResponse }  from 'axios';
+
+const bad: BAD = false;
 
 /** Creates and returns a Pokemon object by parsing CSV line values 
  * @param {string} csvLine - Line of text representing a CSV record
@@ -31,7 +32,7 @@ type ResponseObj = {
   msg: string;
 };
 
-export default async function handler(ctx: Response) {
+export default async function catchPokemonHandler(ctx: Response) {
   // Get list of Pokemon
   return get("https://raw.githubusercontent.com/PokeAPI/pokeapi/master/data/v2/csv/pokemon.csv")
     .then(async (res: AxiosResponse) => {     
@@ -83,7 +84,7 @@ export default async function handler(ctx: Response) {
           msg: err.message,
         }
       }
-      statusLog(false, `catch-pokemon: Couldn't download Pokemon data\n${JSON.stringify(resObj.msg)}\nOh...`);
+      statusLog(bad, `catch-pokemon: Couldn't download Pokemon data\n${JSON.stringify(resObj.msg)}\nOh...`);
       ctx.send (resObj)
     }));
 }

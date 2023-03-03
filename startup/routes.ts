@@ -1,7 +1,8 @@
 import express, {Express} from "express";
-import bodyParser from 'body-parser'
+import bodyParser from 'body-parser';
+import catchPokemonHandler  from '../api/internal/catch-pokemon';
+import catchGetPokemon from '../api/v1/get-pokemon';
 import statusLog, { GOOD, BAD } from "../utils/logger";
-import handler  from '../api/internal/catch-pokemon'
 
 const good: GOOD = true;
 const bad: BAD = false;
@@ -18,11 +19,10 @@ export const routes = (app: Express) => {
       res.send("Hello World!");
     });
     
-    app.get("/api/internal/catch-pokemon", (req, res) => handler(res));
+    app.get("/api/internal/catch-pokemon", (req, res) => catchPokemonHandler(res));
     
-    app.get("/api/v1/get-pokemon", (req, res) => {
-      res.send("get-pokemon");
-    });
+    app.get("/api/v1/get-pokemon", (req, res) => catchGetPokemon(req, res));
+    
     
     statusLog(good, "routes ready!");
   } catch (err) {
