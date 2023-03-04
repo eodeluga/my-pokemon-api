@@ -6,7 +6,8 @@
   "scripts": {
     "build": "env-cmd npx tsc",
     "start": "env-cmd npx ts-node server.ts",
-    "test": "env-cmd npm run build && mocha ./build/test"
+    "test": "env-cmd npm run build && mocha ./build/test",
+    "docker-start": "npx ts-node server.ts"
   },
   "keywords": [
     "API",
