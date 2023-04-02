@@ -7,7 +7,7 @@ describe("API tests", async function () {
     chai.use(chaiHttp);
     
     it("has a routes file", function () {
-        const fileExists = fs.existsSync("./startup/routes.ts");
+        const fileExists = fs.existsSync("src/startup/routes.ts");
         expect(fileExists).be.true;
     });
     
