@@ -1,7 +1,9 @@
 import fs from "fs";
 import chai, { expect } from 'chai';
 import chaiHttp = require("chai-http");
-import { hashPassword, PasswordObj, verifyPassword } from "../src/utils/hashing";
+import { hashPassword, verifyPassword } from "../src/utils/hashing";
+import service, { Trainer } from "../src/services/TrainerService";
+import { prismaClient } from "../src/services/db";
 
 describe("API tests", async function () {
     
@@ -24,7 +26,7 @@ describe("API tests", async function () {
         expect(res).to.have.status(200);
     });
     
-    it("hashes and verifies a password", async function name() {
+    it("hashes and verifies a password", async function () {
         const password = "password";
         const hash = await hashPassword(password);
         const isMatch = await verifyPassword({
@@ -32,5 +34,21 @@ describe("API tests", async function () {
             passwd: password
         });
         expect(isMatch).to.be.true;
+    })
+    
+    it("retrieves the correct db record", async function () {
+        const trainer: Trainer = {
+            username: "eodeluga",
+            password: "password",
+            email_address: "eodeluga@gmail.com",
+        }
+        
+        const trainerService = service(prismaClient);
+        const { username, password, email_address } = 
+            await trainerService.get(trainer.email_address as string);
+            
+        expect(username).to.equal(trainer.username);
+        expect(email_address).to.equal(trainer.email_address);
+        expect(password).to.equal(trainer.password);
     })
 });
