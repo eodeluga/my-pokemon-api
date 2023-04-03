@@ -11,9 +11,20 @@ datasource db {
 }
 
 model Pokemon {
-  id Int @id @default(autoincrement())
+  id Int @id @default(autoincrement()) @unique
   name String
   height Int
   weight Int
   artwork_url String
+  trainer Trainer? @relation(fields: [trainer_id], references: [id])
+  trainer_id Int?
+  is_training Boolean @default(false)
+}
+
+model Trainer {
+  id Int @id @default(autoincrement()) @unique
+  username String?
+  email_address String? @unique
+  password String?
+  pokemon Pokemon[]
 }

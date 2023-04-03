@@ -1,6 +1,7 @@
 import fs from "fs";
 import chai, { expect } from 'chai';
 import chaiHttp = require("chai-http");
+import { hashPassword, PasswordObj, verifyPassword } from "../src/utils/hashing";
 
 describe("API tests", async function () {
     
@@ -23,4 +24,13 @@ describe("API tests", async function () {
         expect(res).to.have.status(200);
     });
     
+    it("hashes and verifies a password", async function name() {
+        const password = "password";
+        const hash = await hashPassword(password);
+        const isMatch = await verifyPassword({
+            hash: hash as string, 
+            passwd: password
+        });
+        expect(isMatch).to.be.true;
+    })
 });

@@ -80,7 +80,7 @@ export default async function catchPokemonHandler(ctx: Response) {
       } else {
         // Something happened in setting up the request that triggered an Error
         resObj = {
-          status: err.response.status,
+          status: err.response?.status,
           msg: err.message,
         }
       }
