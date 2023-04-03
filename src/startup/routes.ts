@@ -1,11 +1,9 @@
-//import express, {Express} from "express";
 import express, { Application, Request, Response } from 'express';
 import oauthServer from "express-oauth-server";
-//var oauthServer = require('express-oauth-server');
 import bodyParser from "body-parser";
 import catchPokemonHandler  from "../api/internal/catch-pokemon";
 import getPokemonHandler from "../api/v1/get-pokemon";
-import statusLog, { GOOD, BAD } from "../utils/logger";
+import statusLog, { GOOD, BAD } from "../services/logger";
 import createTrainerHandler from "../api/internal/create-trainer";
 import getTrainerHandler from "../api/v1/get-trainer";
 
@@ -30,7 +28,7 @@ export const routes = (app: Application) => {
       res.send("Hello World!");
     });
     
-    // Authorised routes
+    // Authenticated routes
     app.post(
       "/api/internal/create-trainer",
       // Authenticate route using oauth

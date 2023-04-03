@@ -4,7 +4,11 @@
  */
 import { Token } from 'oauth2-server';
 import { IResult } from 'pg-promise/typescript/pg-subset';
-const pg = require('pg-promise')(process.env.DATABASE_URL);
+
+const pg = require('pg-promise')();
+const connStr = process.env.DATABASE_URL;
+// Connect
+pg(connStr);
 
 /*
 * Get access token.

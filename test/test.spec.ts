@@ -1,7 +1,7 @@
 import fs from "fs";
 import chai, { expect } from 'chai';
 import chaiHttp = require("chai-http");
-import { hashPassword, verifyPassword } from "../src/utils/hashing";
+import { hashPassword, verifyPassword } from "../src/services/hashing";
 import service, { Trainer } from "../src/services/TrainerService";
 import { prismaClient } from "../src/services/db";
 
