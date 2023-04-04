@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { hashPassword } from "./hashing";
 import statusLog, { BAD, GOOD } from "./logger";
 
 const good:GOOD = true;
@@ -25,7 +26,7 @@ export type Trainer = {
  * @property {function(string): Promise<Trainer>} get - Retrieves a trainer from the system based on their email address.
 */
 export type TrainerService = {
-  create: (trainer: Trainer) => Promise<void>;
+  create: (trainer: Trainer) => Promise<Trainer>;
   get: (email: string) => Promise<Trainer>;
 };
 
@@ -44,10 +45,18 @@ export default function service(db: PrismaClient): TrainerService {
      * @throws {string} Throws a string error message if there is a database error.
     */
     async create(trainer: Trainer) {
+      
       try {
-        await db.trainer.create({
+        const { password } = trainer;
+        const hashedPassword = await hashPassword(password as string);
+        trainer.password = hashedPassword as string;
+        
+        // Insert record into db
+        const createdTrainer = await db.trainer.create({
             data: trainer 
-        }) 
+        });
+        return createdTrainer;
+        
       } catch (e) {
         statusLog(bad, `${e}\nOh...`);
         throw "TrainerService: Database error";

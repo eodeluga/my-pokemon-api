@@ -3,7 +3,7 @@ import service from "../../services/PokemonService";
 import { prismaClient } from "../../services/db";
 import { Response, Request } from 'express'
 
-export default async function getPokemonHandler(req: Request, ctx: Response) {
+export default async function getPokemonHandler(req: Request, res: Response) {
   // Describe search schema
   const searchSchema = object({
     height: number().optional().moreThan(-1).integer(),
@@ -18,12 +18,12 @@ export default async function getPokemonHandler(req: Request, ctx: Response) {
     // Initiate service with database client
     const pokemonService = service(prismaClient);
     const pokemon = await pokemonService.findMany({height, weight})
-    ctx.status(200).send(
+    res.status(200).send(
       pokemon
     );
   } catch {
     // Failure
-    ctx.send({
+    res.status(400).send({
       status: 400,
       msg: 'Invalid request',
     })

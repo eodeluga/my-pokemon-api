@@ -32,13 +32,14 @@ type ResponseObj = {
   msg: string;
 };
 
-export default async function catchPokemonHandler(ctx: Response) {
+export default async function catchPokemonHandler(res: Response) {
   // Get list of Pokemon
   return get("https://raw.githubusercontent.com/PokeAPI/pokeapi/master/data/v2/csv/pokemon.csv")
-    .then(async (res: AxiosResponse) => {     
+    .then(async (resolve: AxiosResponse) => {     
       const pokemonArr: Pokemon [] = [];
       // Split the text at line breaks to create CSV record array
-      const csvArr = res.data.split("\n");
+      
+      const csvArr = resolve.data.split("\n");
       
       // Skip first element as its the CSV header row and last as some bad data
       for (let i = 1; i < csvArr.length - 1; i++) {
@@ -54,9 +55,9 @@ export default async function catchPokemonHandler(ctx: Response) {
       await pokemonService.createMany(pokemonArr)
       
       // Success 
-      ctx.send({
-        status: res.status,
-        msg: res.statusText
+      res.send({
+        status: resolve.status,
+        msg: resolve.statusText
       });
     })
     .catch(( err => {
@@ -85,6 +86,6 @@ export default async function catchPokemonHandler(ctx: Response) {
         }
       }
       statusLog(bad, `catch-pokemon: Couldn't download Pokemon data\n${JSON.stringify(resObj.msg)}\nOh...`);
-      ctx.send (resObj)
+      res.send (resObj)
     }));
 }
