@@ -6,6 +6,7 @@ This is an Express.js API demo based on the Next.js [My Pokemon](https://github.
 1. First create an .env.docker file in the folder root with the following details
 
 ````
+PORT=3000
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=<your_postgres_user_password>
 POSTGRES_DB=pokemon
@@ -24,6 +25,7 @@ This will require that PostgreSQL is installed, and the user name and password i
 1. First create a .env file in the folder root with the following details (this is different to the above .env.docker)
 
 ````
+PORT=3000
 POSTGRES_USER="postgres"
 POSTGRES_PASSWORD="<your_postgres_user_password>"
 POSTGRES_DB="pokemon"
