@@ -67,3 +67,23 @@ You should see a success message in the server log console along with how many P
 3. You can also filter Pokemon by using URL query parameters for height and / or weight, for example:
 
     [http://localhost:3000/api/v1/get-pokemon?weight=2000&height=54](http://localhost:3000/api/v1/get-pokemon?weight=2000&height=54)
+
+4. You can POST a Trainer to store the user in the database: 
+
+    [http://localhost:3000/api/internal/create-trainer](http://localhost:3000/api/internal/create-trainer)
+    
+    Each trainer added must have a unique email address.
+    
+    The password is hashed before entering the database.
+    
+    The request body must contain the trainer object in JSON, for example:
+    
+    ````
+    {
+        "data":{
+            "username": "llamb",
+            "password": "password",
+            "email_address": "larry.lamb@gmail.com"
+        }
+    }
+    ````
