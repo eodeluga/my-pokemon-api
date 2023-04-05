@@ -1,7 +1,5 @@
 import { object, string, ValidationError } from "yup";
-
 import { Response, Request } from 'express'
-
 import service, { Trainer } from "../../services/TrainerService";
 import { prismaClient } from "../../services/db";
 
