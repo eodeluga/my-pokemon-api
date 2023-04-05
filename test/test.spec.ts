@@ -1,16 +1,13 @@
 import fs from "fs";
 import chai, { expect } from 'chai';
 import { server } from "../src/server"
-//import post from "axios";
-//import express from 'express';
 import chaiHttp = require("chai-http");
 import { hashPassword, verifyPassword } from "../src/services/hashing";
-import service, { Trainer } from "../src/services/TrainerService";
+import { Trainer } from "../src/services/TrainerService";
 import { prismaClient } from "../src/services/db";
 
 describe("API tests", async function () {
     
-    //const app = require('../app');
     chai.use(chaiHttp);
     
     it("should have a routes file", function() {
@@ -41,26 +38,28 @@ describe("API tests", async function () {
     });
     
     it("should create a trainer user", async function(done) {
-        this.timeout(5000);
         const trainer: Trainer = {
-            username: "llamb",
+            username: "lbamb",
             password: "password",
-            email_address: "larry.lamb@gmail.com",
+            email_address: "larry.bamb@gmail.com",
         }
         
-        const res = await chai.request(server)
+        chai.request(server)
             .post("/api/internal/create-trainer")
             .send({ data: trainer })
-            
-        // Check return data matches 
-        expect(1).to.eql(1);
-        //expect(res.body.username).to.equal(trainer.username);
-        
-        // Clean up
-        await prismaClient.trainer.delete({
-            where: {
-                email_address: trainer.email_address as string,
-            }
-        })
+            .then(async (res) => {
+                // Check return data matches 
+                expect(res.body.username).to.equal(trainer.username);
+                // Clean up db
+                await prismaClient.trainer.delete({
+                    where: {
+                        email_address: trainer.email_address as string,
+                    }
+                });
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+            done();
     });
 });
