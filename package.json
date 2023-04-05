@@ -21,7 +21,6 @@
   "license": "ISC",
   "devDependencies": {
     "@prisma/client": "^4.10.1",
-    "@types/axios": "^0.14.0",
     "@types/chai": "^4.3.4",
     "@types/express": "^4.17.17",
     "@types/jsonwebtoken": "^9.0.1",
