@@ -8,7 +8,7 @@ services:
       - .env.docker
     ports:
       - "5432:5432"
-    container_name: db
+    container_name: eod.db
       
   node:
     build:
@@ -20,7 +20,7 @@ services:
       - .env.docker
     ports:
       - "3000:3000"
-    container_name: node
+    container_name: eod.node
     command: bash -c 'npx prisma migrate dev --name init && npm run docker-start'
     depends_on:
       - db
